@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
 
     const tag = req.query.tag;
 
+        // Bonus
         // 1. Implementare un filtro di ricerca nella index 
         // che mostri solo i post che hanno un determinato Tag
         if(tag){
@@ -25,7 +26,8 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     
     const id = req.params.id - 1;
-    
+
+        // Bonus
         // 2. In Show controllare se il parametro si riferisce 
         // ad un post esistente, in caso contrario, rispondere con uno stato 404 
         // e un messaggio d’errore, sempre in formato JSON.
@@ -51,7 +53,7 @@ router.delete('/:id', (req, res) => {
     const id =  parseInt(req.params.id);
     const post = postList.find(post => post.id === id)
 
-
+        // Bonus
         // 2. In Destroy, controllare se il parametro si riferisce 
         // ad un post esistente, in caso contrario, rispondere con uno stato 404 
         // e un messaggio d’errore, sempre in formato JSON.
@@ -73,7 +75,6 @@ router.delete('/:id', (req, res) => {
 
 
 // Bonus
-
 // 3. Creiamo un controller per i nostri post, in una cartella controllers. 
 // All’interno, prepariamo tutte le funzioni necessarie e copiamo in ciascuna l
 // a logica delle funzioni che attualmente si trovano nel router. 
