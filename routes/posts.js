@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const postList = require('../data/posts')
+const postList = require('../data/posts');
+const listLength = postList.length;
 
 // Implementare le logiche delle nostre CRUD:
 // Index dovrà restituire la lista dei post in formato JSON
@@ -14,7 +15,6 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     
     const id = req.params.id - 1;
-    const listLength = postList.length;
     
     if(id >= listLength){
         res.status(404)
@@ -25,11 +25,30 @@ router.get('/:id', (req, res) => {
     res.json(postList[id])
 })
 
+
 // Destroy dovrà eliminare un singolo post dalla lista, 
 // stampare nel terminale (console.log) la lista aggiornata, 
 // e rispondere con uno stato 204 e nessun contenuto.
+router.delete('/:id', (req, res) => {
 
+    const id =  parseInt(req.params.id);
+    const post = postList.find(post => post.id === id)
 
+    if(!post){
+        res.status(404)
+
+        return res.json({
+            status:'404',
+            error:'Not Found',
+            message:'Post not found'
+        })
+    }
+
+    postList.splice(postList.indexOf(post), 1);
+    console.log(postList);
+    
+    res.sendStatus(204)
+})
 
 
 // Bonus
