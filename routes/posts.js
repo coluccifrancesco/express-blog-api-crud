@@ -1,12 +1,29 @@
-const postsRouter = require('../data/posts');
-console.log(postsRouter);
-
+const express = require('express');
+const router = express.Router();
+const postList = require('../data/posts')
 
 // Implementare le logiche delle nostre CRUD:
-
 // Index dovrà restituire la lista dei post in formato JSON
+router.get('/', (req, res) => {
+    res.status(200)
+    res.json(postList)
+})
+
 
 // Show dovrà restituire un singolo post in formato JSON
+router.get('/:id', (req, res) => {
+    
+    const id = req.params.id - 1;
+    const listLength = postList.length;
+    
+    if(id >= listLength){
+        res.status(404)
+        res.send('The post does not exist')
+    }
+
+    res.status(200)
+    res.json(postList[id])
+})
 
 // Destroy dovrà eliminare un singolo post dalla lista, 
 // stampare nel terminale (console.log) la lista aggiornata, 
@@ -33,3 +50,4 @@ console.log(postsRouter);
 // nel controller e le associamo alle varie rotte, come visto in classe. 
 // Testiamo su postman se chiamando gli endpoint riceviamo effettivamente 
 // le stesse risposte che avevamo prima.
+module.exports = router;
