@@ -1,86 +1,28 @@
 const express = require('express');
 const router = express.Router();
-let postList = require('../data/posts');
-const listLength = postList.length;
+const postController = require('../controllers/postControllers')
 
 // Implementare le logiche delle nostre CRUD:
 // Index dovrà restituire la lista dei post in formato JSON
-router.get('/', (req, res) => {
-
-    const tag = req.query.tag;
-
-        // Bonus
-        // 1. Implementare un filtro di ricerca nella index 
-        // che mostri solo i post che hanno un determinato Tag
-        if(tag){
-            console.log(tag);
-            let filteredList = postList.filter(post => post.tags.includes(tag));
-            return res.status(200).json(filteredList);
-        } 
-
-    res.status(200).json(postList)
-})
-
+router.get('/', postController.index)
 
 // Show dovrà restituire un singolo post in formato JSON
-router.get('/:id', (req, res) => {
-    
-    const id = req.params.id - 1;
+router.get('/:id', postController.show)
 
-        // Bonus
-        // 2. In Show controllare se il parametro si riferisce 
-        // ad un post esistente, in caso contrario, rispondere con uno stato 404 
-        // e un messaggio d’errore, sempre in formato JSON.
-        if(id >= listLength){
-            res.status(404)
+// Store
+router.post('/', postController.store)
 
-            return res.json({
-                status:'404',
-                error:'Not Found',
-                message:'Post not found'
-            })
-        }
+// Update
 
-    res.status(200).json(postList[id])
-})
+
+// Modify
 
 
 // Destroy dovrà eliminare un singolo post dalla lista, 
 // stampare nel terminale (console.log) la lista aggiornata, 
 // e rispondere con uno stato 204 e nessun contenuto.
-router.delete('/:id', (req, res) => {
-
-    const id =  parseInt(req.params.id);
-    const post = postList.find(post => post.id === id)
-
-        // Bonus
-        // 2. In Destroy, controllare se il parametro si riferisce 
-        // ad un post esistente, in caso contrario, rispondere con uno stato 404 
-        // e un messaggio d’errore, sempre in formato JSON.
-        if(!post){
-            res.status(404)
-
-            return res.json({
-                status:'404',
-                error:'Not Found',
-                message:'Post not found'
-            })
-        }
-
-    postList.splice(postList.indexOf(post), 1);
-    console.log(postList);
-    
-    res.sendStatus(204)
-})
+router.delete('/:id', postController.destroy)
 
 
-// Bonus
-// 3. Creiamo un controller per i nostri post, in una cartella controllers. 
-// All’interno, prepariamo tutte le funzioni necessarie e copiamo in ciascuna l
-// a logica delle funzioni che attualmente si trovano nel router. 
 
-// Poi torniamo sul file delle rotte. Qui importiamo le funzioni dichiarate 
-// nel controller e le associamo alle varie rotte, come visto in classe. 
-// Testiamo su postman se chiamando gli endpoint riceviamo effettivamente 
-// le stesse risposte che avevamo prima.
 module.exports = router;

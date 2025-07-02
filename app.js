@@ -12,7 +12,11 @@ app.get(('/'), (req, res) => {
 })
 
 app.use('/posts', postsRouter);
+app.use(express.static('public'))
 
+// Impostiamo il body-parser per far sì che la 
+// nostra app riesca a decifrare il request body.
+app.use(express.json());
 
 
 app.listen(PORT, () => {
