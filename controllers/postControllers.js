@@ -57,10 +57,36 @@ const store = (req, res) => {
         tags: req.body.tags
     }
 
+    // Implementiamo quindi la logica per aggiungere un nuovo post 
+    // e prepariamo la risposta adeguata.
     postList.push(newPostObj);
     console.log(postList);
     
     res.status(201).json(newPostObj);
+
+}
+
+// Ripetiamo il procedimento per Update, in modo da avere 
+// la possibilità di modificare le nostre risorse
+const update = (req, res) => {
+    
+    const id = parseInt(req.params.id);
+    const post = postList.find(post => post.id === id);
+
+    if(!post){
+        return res.status(404).json({
+            error: true,
+            message: 'Not found'
+        })
+    }
+
+    post.title = req.body.title;
+    post.content = req.body.content;
+    post.tags = req.body.tags;
+
+    console.log(postList);
+    
+    res.json(post)
 
 }
 
@@ -91,10 +117,10 @@ const destroy = (req, res) => {
 }
 
 
-
 module.exports = {
     index,
     show,
     store,
+    update,
     destroy
 }

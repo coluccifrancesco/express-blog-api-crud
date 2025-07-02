@@ -13,7 +13,7 @@ router.get('/:id', postController.show)
 router.post('/', postController.store)
 
 // Update
-
+router.put('/:id', postController.update)
 
 // Modify
 
