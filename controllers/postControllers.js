@@ -3,7 +3,7 @@ const listLength = postList.length;
 
 
 const index = (req, res) => {
-
+    
     const tag = req.query.tag;
 
         // Bonus
@@ -91,6 +91,22 @@ const update = (req, res) => {
 }
 
 
+const modify = (req, res) => {
+    const id = req.params.id
+
+    if(id > listLength){
+        return res.status(404).json({
+            error: true,
+            message: 'Not found'
+        })
+    }
+
+    console.log(`Hai modificato il post con id: ${id}`);
+    res.json(`Hai modificato il post con id: ${id}`)
+}
+
+
+
 const destroy = (req, res) => {
 
     const id =  parseInt(req.params.id);
@@ -122,5 +138,6 @@ module.exports = {
     show,
     store,
     update,
+    modify,
     destroy
 }
